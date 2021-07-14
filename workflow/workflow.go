@@ -26,7 +26,7 @@ func CustomerWorkflow(ctx workflow.Context, customer model.Customer) (model.Acco
 
 	_ = workflow.Sleep(ctx, customer.DemoWaitDuration)
 
-	// STEP 1
+	// CHANGE 1
 	//v1 := workflow.GetVersion(ctx, "addedCheck", workflow.DefaultVersion, 1)
 	//if v1 == 1 {
 	//	var checkPassed bool
@@ -40,14 +40,14 @@ func CustomerWorkflow(ctx workflow.Context, customer model.Customer) (model.Acco
 	//	}
 	//	_ = workflow.Sleep(ctx, customer.DemoWaitDuration)
 	//}
-	// END STEP 1
+	// END CHANGE 1
 
-	// STEP 2
-	//v21 := workflow.GetVersion(ctx, "addedBonus", workflow.DefaultVersion, 2)
+	// CHANGE 2
+	//v21 := workflow.GetVersion(ctx, "addedBonus", workflow.DefaultVersion, 1)
 	//if v21 == 2 {
 	//	bonus = 200
 	//}
-	// END STEP 2
+	// END CHANGE 2
 
 	err = workflow.ExecuteActivity(ctx, activities.UpdateCustomerAccount, customer, bonus).Get(ctx, &account)
 	if err != nil {
@@ -55,8 +55,8 @@ func CustomerWorkflow(ctx workflow.Context, customer model.Customer) (model.Acco
 		return model.Account{}, err
 	}
 
-	// STEP 2
-	//v22 := workflow.GetVersion(ctx, "addedBonus", workflow.DefaultVersion, 2)
+	// CHANGE 2
+	//v22 := workflow.GetVersion(ctx, "addedBonus", workflow.DefaultVersion, 1)
 	//if v22 == 2 {
 	//	var bonusEmailed bool
 	//	err = workflow.ExecuteActivity(ctx, activities.SendBonusEmail, customer, "You received a bonus!").Get(ctx, &bonusEmailed)
@@ -64,9 +64,8 @@ func CustomerWorkflow(ctx workflow.Context, customer model.Customer) (model.Acco
 	//		logger.Error("SendBonusEmail failed.", "Error", err)
 	//		return model.Account{}, err
 	//	}
-	//	_ = workflow.Sleep(ctx, customer.DemoWaitDuration)
 	//}
-	// END STEP 2
+	// END CHANGE 2
 
 	return account, err
 }

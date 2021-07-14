@@ -23,7 +23,7 @@ func main() {
 		Name:             "John",
 		Email:            "john@john.com",
 		CustomerType:     "new",
-		DemoWaitDuration: time.Minute,
+		DemoWaitDuration: 2 * time.Minute,
 	}
 
 	workflowOptions := client.StartWorkflowOptions{

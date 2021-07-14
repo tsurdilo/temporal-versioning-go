@@ -27,26 +27,26 @@ func CustomerWorkflow(ctx workflow.Context, customer model.Customer) (model.Acco
 	_ = workflow.Sleep(ctx, customer.DemoWaitDuration)
 
 	// CHANGE 1
-	//v1 := workflow.GetVersion(ctx, "addedCheck", workflow.DefaultVersion, 1)
-	//if v1 == 1 {
-	//	var checkPassed bool
-	//	err := workflow.ExecuteActivity(ctx, activities.CheckCustomerAccount, customer).Get(ctx, &checkPassed)
-	//	if err != nil {
-	//		logger.Error("GetCustomerAccount failed.", "Error", err)
-	//		return model.Account{}, err
-	//	}
-	//	if(!checkPassed) {
-	//		return model.Account{}, err
-	//	}
-	//	_ = workflow.Sleep(ctx, customer.DemoWaitDuration)
-	//}
+	v1 := workflow.GetVersion(ctx, "addedCheck", workflow.DefaultVersion, 1)
+	if v1 == 1 {
+		var checkPassed bool
+		err := workflow.ExecuteActivity(ctx, activities.CheckCustomerAccount, customer).Get(ctx, &checkPassed)
+		if err != nil {
+			logger.Error("GetCustomerAccount failed.", "Error", err)
+			return model.Account{}, err
+		}
+		if(!checkPassed) {
+			return model.Account{}, err
+		}
+		_ = workflow.Sleep(ctx, customer.DemoWaitDuration)
+	}
 	// END CHANGE 1
 
 	// CHANGE 2
-	//v21 := workflow.GetVersion(ctx, "addedBonus", workflow.DefaultVersion, 1)
-	//if v21 == 2 {
-	//	bonus = 200
-	//}
+	v21 := workflow.GetVersion(ctx, "addedBonus", workflow.DefaultVersion, 1)
+	if v21 == 1 {
+		bonus = 200
+	}
 	// END CHANGE 2
 
 	err = workflow.ExecuteActivity(ctx, activities.UpdateCustomerAccount, customer, bonus).Get(ctx, &account)
@@ -56,15 +56,15 @@ func CustomerWorkflow(ctx workflow.Context, customer model.Customer) (model.Acco
 	}
 
 	// CHANGE 2
-	//v22 := workflow.GetVersion(ctx, "addedBonus", workflow.DefaultVersion, 1)
-	//if v22 == 2 {
-	//	var bonusEmailed bool
-	//	err = workflow.ExecuteActivity(ctx, activities.SendBonusEmail, customer, "You received a bonus!").Get(ctx, &bonusEmailed)
-	//	if err != nil {
-	//		logger.Error("SendBonusEmail failed.", "Error", err)
-	//		return model.Account{}, err
-	//	}
-	//}
+	v22 := workflow.GetVersion(ctx, "addedBonus", workflow.DefaultVersion, 1)
+	if v22 == 1 {
+		var bonusEmailed bool
+		err = workflow.ExecuteActivity(ctx, activities.SendBonusEmail, customer, "You received a bonus!").Get(ctx, &bonusEmailed)
+		if err != nil {
+			logger.Error("SendBonusEmail failed.", "Error", err)
+			return model.Account{}, err
+		}
+	}
 	// END CHANGE 2
 
 	return account, err

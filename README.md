@@ -61,9 +61,8 @@ Now let's test that our change will not break the determinism of any already run
 Open "tests/replay_test.go" and run the "TestReplayFromInitialVersion" test method. This will do a replay against 
 the workflow events of our workflow execution before we applied the changes.
 
-Next step is to restart our worker, stop the running workflow worker and starat it again. This will apply 
+Next step is to restart our worker, stop the running workflow worker and start it again. This will apply 
 our changes to our running workflow instances.
-
 
 d) Query the workflow execution by its change
 
